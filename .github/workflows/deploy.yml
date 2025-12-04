@@ -23,19 +23,13 @@ jobs:
           bun install
           bun run build
 
-      # 🔥 新增步骤：把你的服务器加入“白名单”，防止报 Host key verification failed
-      - name: Add Known Hosts
-        env:
-          SSH_IP: ${{ secrets.SERVER_IP }}
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H $SSH_IP >> ~/.ssh/known_hosts
-
+      # 🔥 删掉了那个报错的 Add Known Hosts 步骤，直接部署
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v5.0.0
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rltgoDzvO"  # 👈 改回了正确的参数
+          # 关键参数：强制跳过指纹检查，直接连接
+          ARGS: "-rltgoDzvO -o StrictHostKeyChecking=no"
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: "root"
