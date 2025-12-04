@@ -2,7 +2,7 @@ name: Deploy to Oracle Cloud
 
 on:
   push:
-    # 再次确认一下左下角是 main 还是 master，如果是 master 请改一下这里
+    # 再次确认一下你的分支名是 main 还是 master
     branches: [ main ]
 
 jobs:
@@ -23,13 +23,14 @@ jobs:
           bun install
           bun run build
 
-      # 🔥 删掉了那个报错的 Add Known Hosts 步骤，直接部署
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v5.0.0
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          # 关键参数：强制跳过指纹检查，直接连接
-          ARGS: "-rltgoDzvO -o StrictHostKeyChecking=no"
+          # ✅ 修正点1：Rsync 参数改回干净的配置
+          ARGS: "-rltgoDzvO"
+          # ✅ 修正点2：把 SSH 的参数放到专门的 SSH_OPTIONS 里
+          SSH_OPTIONS: "-o StrictHostKeyChecking=no"
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: "root"
