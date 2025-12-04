@@ -2,7 +2,7 @@ name: Deploy to Oracle Cloud
 
 on:
   push:
-    # 再次确认一下你的分支名是 main 还是 master
+    # 确认一下你的分支名是 main 还是 master
     branches: [ main ]
 
 jobs:
@@ -27,9 +27,10 @@ jobs:
         uses: easingthemes/ssh-deploy@v5.0.0
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          # ✅ 修正点1：Rsync 参数改回干净的配置
+          # ✅ 关键修正：指定端口为 5522
+          REMOTE_PORT: 5522
+          # 保持原有的参数配置
           ARGS: "-rltgoDzvO"
-          # ✅ 修正点2：把 SSH 的参数放到专门的 SSH_OPTIONS 里
           SSH_OPTIONS: "-o StrictHostKeyChecking=no"
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
