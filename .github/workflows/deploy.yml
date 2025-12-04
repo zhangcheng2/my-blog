@@ -1,0 +1,47 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    # ⚠️ 注意：看一眼你 VS Code 左下角显示的当前分支是 main 还是 master
+    # 如果是 master，把下面这行改成 branches: [ master ]
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 把代码拉取到机器人这儿
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. 安装 Bun 环境
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # 3. 安装依赖并打包网站
+      - name: Install and Build
+        run: |
+          bun install
+          bun run build
+
+      # 4. 拿着钥匙登录你的服务器，把 dist 文件夹传过去
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v5.0.0
+        env:
+          # 这里会自动读取你在 GitHub 网页上填的那个 Secret
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # 你的服务器 IP，也会自动读取
+          REMOTE_HOST: ${{ secrets.SERVER_IP }}
+          # 登录用户名：因为你截图里一直用的是 root，这里填 root 最稳妥
+          REMOTE_USER: "root"
+          # 只要把 dist 文件夹里的内容传过去
+          SOURCE: "dist/"
+          # 传到服务器的哪个位置
+          TARGET: "/var/www/blog"
+          # 排除不需要的文件
+          EXCLUDE: "/node_modules/"
+          # 传输参数
+          ARGS: "-rltgoDzvO"
