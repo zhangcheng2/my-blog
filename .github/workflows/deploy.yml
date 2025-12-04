@@ -44,4 +44,4 @@ jobs:
           # 排除不需要的文件
           EXCLUDE: "/node_modules/"
           # 传输参数
-          ARGS: "-rltgoDzvO"
+          ARGS: "-rltgoDzvO -o StrictHostKeyChecking=no"
