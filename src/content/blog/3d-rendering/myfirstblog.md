@@ -1,3 +1,11 @@
+---
+title: "我的第一篇博客"
+description: "这是我用来测试的博客文章"
+publishDate: 2025-12-04
+tags: ["测试", "生活"]
+---
+
+
 # 用背脊唱情歌 - Gareth.T
 
 > **词**：黄伟文 &nbsp;|&nbsp; **曲**：汤令山 &nbsp;|&nbsp; **主唱**：汤令山  
