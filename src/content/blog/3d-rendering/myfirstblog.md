@@ -1,9 +1,4 @@
----
-title: "用背脊唱情歌 - Gareth.T"
-description: "Gareth.T 汤令山《用背脊唱情歌》完整歌词排版"
-publishDate: 2025-12-04
-tags: ["歌词", "音乐", "Gareth.T"]
----
+# 用背脊唱情歌 - Gareth.T
 
 > **词**：黄伟文 &nbsp;|&nbsp; **曲**：汤令山 &nbsp;|&nbsp; **主唱**：汤令山  
 > **编曲**：Gab de Leon / Gareth.T / 李一丁 / Nic Tsui / Patrick Yip / Tom Wong  
